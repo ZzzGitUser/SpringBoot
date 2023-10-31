@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.EmpMapper">
+    <insert id="insert">
+        INSERT INTO emp(username, name, gender, job, entrydate, dept_id, create_time, update_time)
+        VALUES (#{username}, #{name}, #{gender}, #{job}, #{entrydate}, #{deptId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        UPDATE emp
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="job != null">
+                job = #{job},
+            </if>
+            <if test="entrydate != null">
+                entrydate = #{entrydate},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="del">
+        DELETE FROM emp WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectByPageAndCondition" resultType="com.example.pojo.Emp">
+        SELECT id,
+        username,
+        password,
+        name,
+        gender,
+        job,
+        entrydate,
+        dept_id,
+        create_time,
+        update_time
+        FROM emp
+        <where>
+            <if test="name != null and name != ''">
+                name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="gender != null">
+                and gender=#{gender}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.pojo.Emp">
+        SELECT id,
+               username,
+               password,
+               name,
+               gender,
+               job,
+               entrydate,
+               dept_id,
+               create_time,
+               update_time
+        FROM emp
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByUsernameAndPassword" resultType="com.example.pojo.Emp">
+        SELECT id,
+               username,
+               password,
+               name,
+               gender,
+               job,
+               entrydate,
+               dept_id,
+               create_time,
+               update_time
+        FROM emp
+        WHERE username = #{username}
+          AND password = #{password}
+    </select>
+</mapper>

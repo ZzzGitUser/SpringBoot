@@ -1,0 +1,13 @@
+#数据库连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db01_my?serverTimezone=UTC
+    username: root
+    password: root
+mybatis:
+  configuration:
+    #MyBatis的日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #数据库表字段，与实体类的属性的驼峰映射
+    map-underscore-to-camel-case: true
